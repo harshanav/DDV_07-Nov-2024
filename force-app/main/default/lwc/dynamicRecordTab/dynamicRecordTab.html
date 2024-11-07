@@ -1,0 +1,87 @@
+<template>
+   <div class="record-tab-wrapper slds-clearfix">
+      
+      
+      <div class="tab">
+         <template if:true={recordDataList}>
+            
+            <template for:each={recordDataList} for:item="rec">
+               <div class="tablinks" onclick={openTab} key={rec.index} data-id={rec.index} >
+                  <div class="slds-box slds-clearfix">
+                     <div class="slds-float_left">
+                        <h1><a href={rec.recordurl} target="_blank">{rec.title}</a></h1>
+                        <p>{rec.titleCaption}</p>
+                        <template if:true={rec.compactDetails}>
+                           <div class="slds-grid slds-gutters slds-wrap custom-grid">
+                              <template for:each={rec.compactDetails} for:item="detail">
+                                 <div key={detail} class="slds-col slds-size_4-of-12">
+                                    <p class="slds-text-title slds-truncate">{detail.label}</p>
+                                    
+                                    <p class="slds-text-body--regular">{detail.value}</p>
+                                 </div>
+                              </template>
+                           </div>
+                        </template>
+                     </div>
+                     <div class="slds-float_right" lwc:if={rec.showBadge}>
+                        <div lwc:if={rec.badgeTitle} class="slds-badge" style={rec.badgeColor}>{rec.badgeTitle}</div>
+                     </div>
+                  </div>
+               </div>
+            </template>
+         </template>
+      </div>
+      
+      
+      
+      <template if:true={recordData}>
+         <div class="spinnerCls" lwc:if={isSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+         </div>
+         <div class="tabcontent first" lwc:else>
+           
+            <div class="slds-clearfix">
+               <div class="slds-float_left" lwc:if={recordData.showBadge}>
+                  <div class="slds-badge" style={recordData.badgeColor} lwc:if={recordData.badgeTitle}>{recordData.badgeTitle}</div>
+               </div>
+               <div class="slds-float_right" lwc:if={recordData.showImage}>
+                  <img src={recordData.imageUrl} class="logo" alt="logoImg"/>
+               </div>
+            </div>
+            <div class="top-heading slds-clearfix">
+               <div class="slds-float_left">
+                  <h1><a href={recordData.recordurl} target="_blank">{recordData.title}</a></h1>
+                  
+               </div>
+               <div class="slds-float_right" lwc:if={recordData.showBadgeImage}>
+                  <div class="slds-badge rating" style={recordData.badgeImageColor}>
+                     <lightning-icon icon-name={recordData.badgeImageIcon} alternative-text="Utility image" title="Image"></lightning-icon>
+                     {recordData.badgeImageTitle}
+                  </div>
+               </div>
+            </div>
+            <p class="slds-text-align_center">{recordData.titleCaption}</p>
+            <h4>Summary</h4>
+            <template if:true={recordData.details}>
+               <table class="summary-table">
+                  <template for:each={recordData.details} for:item="rec">
+                     <tr key={rec.label}>
+                        <td>{rec.label}</td>
+                       
+                        <td>{rec.value}</td>
+                     </tr>
+                  </template>
+               </table>
+            </template>
+         </div>
+      </template>
+
+
+
+      <template if:false={recordData}>
+         <div class="tabcontent first">
+            <h1 class="alert-info">Select a record!!</h1>
+         </div>
+      </template>
+   </div>
+</template>

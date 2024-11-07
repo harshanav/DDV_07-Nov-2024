@@ -1,0 +1,602 @@
+<template>
+    <div class="slds-theme_default" style="position:relative;">
+        <lightning-spinner alternative-text="Loading..." variant="brand" class={spinnerClass}></lightning-spinner>
+        <div class="slds-p-top_x-small">
+            <lightning-input 
+                data-id="titleToggle"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Show Title"
+                message-toggle-inactive="Hide Title"
+                onchange={handleSettingChange} 
+                checked={settings.titleToggle}>
+            </lightning-input>
+        </div>
+        <!--Title-->
+        <div class="slds-p-top_x-small" if:true={settings.titleToggle}>
+            <lightning-input 
+                data-id="selectedTitle"
+                label="Title"
+                placeholder="Enter Title" 
+                onblur={handleSettingChange} 
+                value={settings.selectedTitle}>
+            </lightning-input>
+        </div>
+        <!--Title Caption-->
+        <div class="slds-p-top_x-small" if:true={settings.titleToggle}>
+            <lightning-input 
+                data-id="selectedTitleCaption"
+                label="Title Caption" 
+                placeholder="Enter Title Caption" 
+                onblur={handleSettingChange} 
+                value={settings.selectedTitleCaption}>
+            </lightning-input>
+        </div>
+        <!--Title Logo-->
+        <div class="slds-p-top_x-small" if:true={settings.titleToggle}>
+            <lightning-input 
+                data-id="selectedTitleLogo"
+                label="Title Logo" 
+                placeholder="standard:apps" 
+                onblur={handleSettingChange} 
+                value={settings.selectedTitleLogo}>
+            </lightning-input>
+        </div>
+        <!--Switch as Record Tab-->
+        <div class="slds-p-top_x-small">
+            <lightning-input 
+                data-id="recordTabToggle"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Show as a Record Tab"
+                message-toggle-inactive="Show as a Action Card"
+                onchange={handleSettingChange} 
+                checked={settings.recordTabToggle}>
+            </lightning-input>
+        </div>
+        <!--Select Parent-->
+        <div class="slds-p-around_xx-small">
+            <lightning-combobox
+                data-id="selectedParent"
+                name="parentobj"
+                label="Select Parent Object"
+                placeholder="Select an Object"
+                value={settings.selectedParent}
+                options={allObjectsData}
+                onchange={handleParentChange} >
+            </lightning-combobox>
+        </div>
+        <!--Show as related list-->
+        <div class="slds-p-top_x-small" if:true={settings.selectedParent}>
+            <lightning-input 
+                data-id="showAsRelatedList"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Show as Related List"
+                message-toggle-inactive="Show as Parent Card"
+                onchange={handleSettingChange} 
+                checked={settings.showAsRelatedList}>
+            </lightning-input>
+        </div>
+        <!--Provide SOQL Query or Select Manually for Parent-->
+        <div class="slds-p-top_x-small" if:true={isParentSelected}>
+            <lightning-input 
+                data-id="provideSOQLParentToggle"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Provide SOQL Query"
+                message-toggle-inactive="Select Query Details Manually"
+                onchange={handleSettingChange} 
+                checked={settings.provideSOQLParentToggle}>
+            </lightning-input>
+        </div>
+        <!--Enter Custom SOQL-->
+        <div class="slds-p-top_x-small" if:true={hasParentAndManuallySelectionIsOn}>
+            <lightning-textarea 
+                data-id="customParentSOQL"
+                label="SOQL Query" 
+                placeholder="Enter Custom SOQL Query"
+                onblur={handleSettingChange} 
+                value={settings.customParentSOQL}>
+            </lightning-textarea>
+        </div>
+        <!--Select Parent Fieldset-->
+        <div class="slds-p-around_xx-small" if:true={hasParentAndManuallySelectionIsOff}>
+            <lightning-combobox
+                data-id="selectedParentFieldset"
+                name="parentfieldset"
+                label="Select Fieldset"
+                placeholder="Select a FieldSet"
+                value={settings.selectedParentFieldset}
+                options={parentFieldsets}
+                onchange={handleSettingChange} >\
+            </lightning-combobox>
+        </div>
+        <!--Select Parent fields-->
+        <div class="slds-p-around_xx-small" if:true={hasParentAndManuallySelectionIsOff}>
+            <c-dynamic-data-visualizer-multi-select-picklist
+                label="Select Fields"
+                selected-values={settings.selectedParentFields}
+                selected-values-retain={settings.selectedParentFields}
+                data-id="selectedParentFields"
+                name="options"
+                placeholder={dynamicParentPlaceHolder}
+                selectable-options={parentFields}
+                onselectionchange={handleFieldsChange}>
+            </c-dynamic-data-visualizer-multi-select-picklist>
+        </div>
+         <!--Select Parents Compact fields-->
+         <div class="slds-p-around_xx-small" if:true={isParentSelected}>
+            <c-dynamic-data-visualizer-multi-select-picklist
+                label="Select Compact Fields"
+                name="options"
+                selected-values={settings.selectedParentCompactFields}
+                selected-values-retain={settings.selectedParentCompactFields}
+                data-id="selectedParentCompactFields"
+                placeholder="Select Compact Fields"
+                selectable-options={parentFields}
+                onselectionchange={handleFieldsChange}>
+            </c-dynamic-data-visualizer-multi-select-picklist>
+        </div>
+        <!--Select Parent order by-->
+        <div class="slds-p-around_xx-small slds-grid" if:true={hasParentAndManuallySelectionIsOff}>
+            <div class="slds-p-around_xx-small slds-size_2-of-3">
+                <lightning-combobox
+                    data-id="selectedParentOrderBy"
+                    name="parentfield"
+                    label="Order By"
+                    placeholder="Select an Order By Field"
+                    value={settings.selectedParentOrderBy}
+                    options={parentFields}
+                    onchange={handleSettingChange} >
+                </lightning-combobox>
+            </div>
+            <div class="slds-p-around_xx-small slds-size_1-of-3">
+                <lightning-combobox
+                    data-id="selectedParentOrderByDir"
+                    name="parentfield"
+                    label="Direction"
+                    placeholder="'ASC' OR 'DESC'"
+                    value={settings.selectedParentOrderByDir}
+                    options={orderByDir}
+                    onchange={handleSettingChange} >
+                </lightning-combobox>
+            </div>
+        </div>
+        <!--Select Parent Max Record-->
+        <div class="slds-p-around_xx-small" if:true={hasParentAndManuallySelectionIsOff}>
+            <lightning-input 
+                type="number"
+                data-id="selectedParentMaxRecordsCount"
+                label="Maximum Records Limit" 
+                placeholder="Enter Maximum Records to Fetch"
+                max="10000"
+                min="1"
+                message-when-range-overflow="You can not enter a value more than 10000"
+                message-when-range-underflow="You can enter a value less than 1"
+                onblur={handleSettingChange} 
+                value={settings.selectedParentMaxRecordsCount}>
+            </lightning-input>
+        </div>
+        <!--Select Parent Card title-->
+        <div class="slds-p-around_xx-small" if:true={isParentSelected}>
+            <lightning-combobox
+                data-id="selectedParentCardTitleField"
+                label="Card Title Field"
+                placeholder="Select a Card Title Field"
+                value={settings.selectedParentCardTitleField}
+                options={parentFields}
+                onchange={handleSettingChange} >
+            </lightning-combobox>
+        </div>
+        <!--Select Parent Card Caption-->
+        <div class="slds-p-around_xx-small" if:true={isParentSelected}>
+            <lightning-combobox
+                data-id="selectedParentCardTitleCaption"
+                label="Card Caption Field"
+                placeholder="Select a Card Caption Field"
+                value={settings.selectedParentCardTitleCaption}
+                options={parentFields}
+                onchange={handleSettingChange} >
+            </lightning-combobox>
+        </div>
+         <!--Show image field Selection-->
+         <div class="slds-p-top_x-small" if:true={isParentSelected}>
+            <lightning-input 
+                data-id="parentImageFieldToggle"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Show Image Fields"
+                message-toggle-inactive="Hide Image Fields"
+                onchange={handleSettingChange} 
+                checked={settings.parentImageFieldToggle}>
+            </lightning-input>
+        </div>
+        <!--Show Image fields-->
+        <div class="slds-p-around_xx-small" if:true={showParentsImageField}>
+            <lightning-combobox
+                data-id="selectedParentImageField"
+                name="parentfield"
+                label="Select Image Field"
+                placeholder="Select an Image Field"
+                value={settings.selectedParentImageField}
+                options={settings.parentTextAreaFields}
+                onchange={handleSettingChange} >
+            </lightning-combobox>
+        </div>
+        <!--Show badge field selection-->
+        <div class="slds-p-top_x-small" if:true={isParentSelected}>
+            <lightning-input 
+                data-id="parentBadgeFieldToggle"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Show Badge Fields"
+                message-toggle-inactive="Hide Badge Fields"
+                onchange={handleSettingChange} 
+                checked={settings.parentBadgeFieldToggle}>
+            </lightning-input>
+        </div>
+        <!--Select Parent Picklist field-->
+        <div class="slds-p-around_xx-small" if:true={showParentsBadgeField}>
+            <lightning-combobox
+                data-id="selectedParentPicklist"
+                name="parentpicklist"
+                label="Select Badge Field"
+                placeholder="Select a Badge Field"
+                value={settings.selectedParentPicklist}
+                options={settings.parentPicklists}
+                onchange={handleParentPicklistChange} >
+            </lightning-combobox>
+        </div>
+        <!--Select Child Object-->
+        <div class="slds-p-around_xx-small" if:true={settings.showAsRelatedList}>
+            <lightning-combobox
+                data-id="selectedChild"
+                name="childobj"
+                label="Select Child Object"
+                placeholder="Select Child Object"
+                value={settings.selectedChild}
+                options={childObjects}
+                onchange={handleChildChange} >
+            </lightning-combobox>
+        </div>
+        <!--Provide SOQL Query or Select Manually for Child-->
+        <div class="slds-p-top_x-small" if:true={isChildSelected}>
+            <lightning-input 
+                data-id="provideSOQLChildToggle"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Provide SOQL Query"
+                message-toggle-inactive="Select Query Details Manually"
+                onchange={handleSettingChange} 
+                checked={settings.provideSOQLChildToggle}>
+            </lightning-input>
+        </div>
+        <!--Enter Custom SOQL-->
+        <div class="slds-p-top_x-small" if:true={hasChildAndManuallySelectionIsOn}>
+            <lightning-textarea 
+                data-id="customChildSOQL"
+                label="SOQL Query" 
+                placeholder="Enter a Custom SOQL Query"
+                onblur={handleSettingChange} 
+                value={settings.customChildSOQL}>
+            </lightning-textarea>
+        </div>
+        <!--Select Childs Fieldset-->
+        <div class="slds-p-around_xx-small" if:true={hasChildAndManuallySelectionIsOff}>
+            <lightning-combobox
+                data-id="selectedChildFieldset"
+                name="childFieldset"
+                label="Select Fieldset"
+                placeholder="Select a Child's FieldSet"
+                value={settings.selectedChildFieldset}
+                options={settings.childFieldsets}
+                onchange={handleSettingChange} >
+            </lightning-combobox>
+        </div>
+        <!--Select Child fields-->
+        <div class="slds-p-around_xx-small" if:true={hasChildAndManuallySelectionIsOff}>
+            <c-dynamic-data-visualizer-multi-select-picklist
+                label="Select Fields"
+                name="options"
+                selected-values={settings.selectedChildFields}
+                selected-values-retain={settings.selectedChildFields}
+                data-id="selectedChildFields"
+                placeholder={dynamicChildPlaceHolder}
+                selectable-options={childFields}
+                onselectionchange={handleFieldsChange}>
+            </c-dynamic-data-visualizer-multi-select-picklist>
+        </div>
+        <!--Select Childs Compact fields-->
+        <div class="slds-p-around_xx-small" if:true={isChildSelected}>
+            <c-dynamic-data-visualizer-multi-select-picklist
+                label="Select Compact Fields"
+                name="options"
+                selected-values={settings.selectedChildCompactFields}
+                selected-values-retain={settings.selectedChildCompactFields}
+                data-id="selectedChildCompactFields"
+                placeholder="Select Compact Fields"
+                selectable-options={childFields}
+                onselectionchange={handleFieldsChange}>
+            </c-dynamic-data-visualizer-multi-select-picklist>
+        </div>
+        <!--Enter Parent Id-->
+        <div class="slds-p-around_xx-small" if:true={hasChildAndManuallySelectionIsOff}>
+            <lightning-input 
+                data-id="parentId"
+                type="text"
+                placeholder="Enter Parent Id"
+                value={settings.parentId}
+                label="Enter Parent Id"
+                onblur={handleSettingChange}>
+            </lightning-input>
+        </div>
+        <!--Select child order by-->
+        <div class="slds-p-around_xx-small slds-grid" if:true={hasChildAndManuallySelectionIsOff}>
+            <div class="slds-p-around_xx-small slds-size_2-of-3">
+                <lightning-combobox
+                    data-id="selectedChildOrderBy"
+                    name="childfield"
+                    label="Order By"
+                    placeholder="Select an Order By Field"
+                    value={settings.selectedChildOrderBy}
+                    options={childFields}
+                    onchange={handleSettingChange} >
+                </lightning-combobox>
+            </div>
+            <div class="slds-p-around_xx-small slds-size_1-of-3">
+                <lightning-combobox
+                    data-id="selectedChildOrderByDir"
+                    name="childfield"
+                    label="Direction"
+                    placeholder="'ASC' OR 'DESC'"
+                    value={settings.selectedChildOrderByDir}
+                    options={orderByDir}
+                    onchange={handleSettingChange} >
+                </lightning-combobox>
+            </div>
+        </div>
+        <!--Select child max record count-->
+        <div class="slds-p-around_xx-small" if:true={hasChildAndManuallySelectionIsOff}>
+            <lightning-input 
+                type="number"
+                data-id="selectedChildMaxRecordsCount"
+                label="Maximum Records Limit" 
+                placeholder="Enter Maximum Records to Fetch"
+                max="10000"
+                min="1"
+                message-when-range-overflow="You can not enter a value more than 10000"
+                message-when-range-underflow="You can enter a value less than 1"
+                onblur={handleSettingChange} 
+                value={settings.selectedChildMaxRecordsCount}>
+            </lightning-input>
+        </div>
+        <!--Select child card title-->
+        <div class="slds-p-around_xx-small" if:true={isChildSelected}>
+            <lightning-combobox
+                data-id="selectedChildCardTitleField"
+                label="Card Title Field"
+                placeholder="Select a Card Title Field"
+                value={settings.selectedChildCardTitleField}
+                options={childFields}
+                onchange={handleSettingChange} >
+            </lightning-combobox>
+        </div>
+        <!--select child card caption-->
+        <div class="slds-p-around_xx-small" if:true={isChildSelected}>
+            <lightning-combobox
+                data-id="selectedChildCardTitleCaption"
+                label="Card Caption Field"
+                placeholder="Select a Card Caption Field"
+                value={settings.selectedChildCardTitleCaption}
+                options={childFields}
+                onchange={handleSettingChange} >
+            </lightning-combobox>
+        </div>
+        <!--Show Image Fields-->
+        <div class="slds-p-top_x-small" if:true={isChildSelected}>
+            <lightning-input 
+                data-id="childImageFieldToggle"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Show Image"
+                message-toggle-inactive="Hide Image"
+                onchange={handleSettingChange} 
+                checked={settings.childImageFieldToggle}>
+            </lightning-input>
+        </div>
+        <!--Select Image Field-->
+        <div class="slds-p-around_xx-small" if:true={showChildsImageField}>
+            <lightning-combobox
+                data-id="selectedChildImageField"
+                name="childfield"
+                label="Select Image Field"
+                placeholder="Select an Image Field"
+                value={settings.selectedChildImageField}
+                options={settings.childTextAreaFields}
+                onchange={handleSettingChange} >
+            </lightning-combobox>
+        </div>
+        <!--Show child badge fields-->
+        <div class="slds-p-top_x-small" if:true={isChildSelected}>
+            <lightning-input 
+                data-id="childBadgeFieldToggle"
+                type="toggle" 
+                variant="label-hidden" 
+                message-toggle-active="Show Badge Fields"
+                message-toggle-inactive="Hide Badge Fields"
+                onchange={handleSettingChange} 
+                checked={settings.childBadgeFieldToggle}>
+            </lightning-input>
+        </div>
+        <!--Select Child picklist-->
+        <div class="slds-p-around_xx-small" if:true={showChildsBadgeField}>
+            <lightning-combobox
+                data-id="selectedChildPicklist"
+                name="childfield"
+                label="Select Badge Field"
+                placeholder="Select a Badge Field"
+                value={settings.selectedChildPicklist}
+                options={settings.childPicklists}
+                onchange={handleChildPicklistChange} >
+            </lightning-combobox>
+        </div>
+        <div class="slds-p-around_xx-small" if:true={showPicklistValuesColorSelection}>
+            <template for:each={selectedPicklistValuesArr} for:item="val">
+                <div class="slds-grid" key={val._id}>
+                    <div class="slds-p-around_xx-small slds-size_2-of-6">
+                        <lightning-combobox
+                            data-id={val._id}
+                            name={val._id}
+                            label="Field Value"
+                            variant="label-hidden"
+                            placeholder="Select a Picklist Field Value"
+                            value={val.selectedValue}
+                            options={piclistValues}
+                            onchange={handlePicklistFieldValueChange}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-p-around_xx-small slds-size_3-of-6">
+                        <lightning-input 
+                            data-id={val._id}
+                            name={val._id}
+                            type="color"
+                            value={val.selectedColor}
+                            variant="label-hidden"
+                            placeholder="Choose Color"
+                            onchange={handleColorChange}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-p-around_xx-small slds-size_1-of-6">
+                        <lightning-button-icon 
+                            data-id={val._id}
+                            name={val._id}
+                            variant="neutral"
+                            icon-name="utility:delete"
+                            onclick={handleBadgeDeleteFieldValue}>
+                        </lightning-button-icon >
+                    </div>
+                </div>
+            </template>
+        </div>
+        <div class="slds-p-around_xx-small" if:true={parentChildAddButtonVisibility}>
+            <lightning-button 
+                label="Add"
+                variant="brand"
+                onclick={handleAddButton}>
+            </lightning-button>
+        </div>
+    </div>
+    <!--Show Parent Image badge field selection-->
+    <div class="slds-p-top_x-small" if:true={isParentSelected}>
+        <lightning-input 
+            data-id="parentImageBadgeFieldToggle"
+            type="toggle" 
+            variant="label-hidden" 
+            message-toggle-active="Show Image Badge Fields"
+            message-toggle-inactive="Hide Image Badge Fields"
+            onchange={handleSettingChange} 
+            checked={settings.parentImageBadgeFieldToggle}>
+        </lightning-input>
+    </div>
+    <div class="slds-p-around_xx-small" if:true={showParentImagePicklistFieldOptions}>
+        <lightning-input 
+            data-id="parentImageBadgeFieldIcon"
+            label="Select Image Badge Icon"
+            placeholder="utility:connected_apps" 
+            onblur={handleSettingChange} 
+            value={settings.parentImageBadgeFieldIcon}>
+        </lightning-input>
+    </div>
+    <!--Select Parent Image badgePicklist field-->
+    <div class="slds-p-around_xx-small" if:true={showParentImagePicklistFieldOptions}>
+        <lightning-combobox
+            data-id="selectedParentImagePicklist"
+            name="parentpicklist"
+            label="Select Image Badge Field"
+            placeholder="Select an Image Badge Field"
+            value={settings.selectedParentImagePicklist}
+            options={settings.parentPicklists}
+            onchange={handleParentImagePicklistChange} >
+        </lightning-combobox>
+    </div>
+    <!--Show Child Image badge field selection-->
+    <div class="slds-p-top_x-small" if:true={isChildSelected}>
+        <lightning-input 
+            data-id="childImageBadgeFieldToggle"
+            type="toggle" 
+            variant="label-hidden" 
+            message-toggle-active="Show Image Badge Field"
+            message-toggle-inactive="Hide Image Badge Field"
+            onchange={handleSettingChange} 
+            checked={settings.childImageBadgeFieldToggle}>
+        </lightning-input>
+    </div>
+    <div class="slds-p-around_xx-small" if:true={showChildImagePicklistFieldOptions}>
+        <lightning-input 
+            data-id="childImageBadgeFieldIcon"
+            label="Select Image Badge Icon" 
+            placeholder="utility:connected_apps" 
+            onblur={handleSettingChange} 
+            value={settings.childImageBadgeFieldIcon}>
+        </lightning-input>
+    </div>
+    <!--Select Child Image badgePicklist field-->
+    <div class="slds-p-around_xx-small" if:true={showChildImagePicklistFieldOptions}>
+        <lightning-combobox
+            data-id="selectedChildImagePicklist"
+            name="childpicklist"
+            label="Select Image Badge Field"
+            placeholder="Select an Image Badge Field"
+            value={settings.selectedChildImagePicklist}
+            options={settings.childPicklists}
+            onchange={handleChildImagePicklistChange} >
+        </lightning-combobox>
+    </div>
+    <div class="slds-p-around_xx-small" if:true={showImagePicklistValuesColorSelection}>
+        <template for:each={selectedImagePicklistValuesArr} for:item="val">
+            <div class="slds-grid" key={val._id}>
+                <div class="slds-p-around_xx-small slds-size_2-of-6">
+                    <lightning-combobox
+                        data-id={val._id}
+                        name={val._id}
+                        label="Field Value"
+                        variant="label-hidden"
+                        placeholder="Select a Picklist Field Value"
+                        value={val.selectedValue}
+                        options={imagePiclistValues}
+                        onchange={handleImagePicklistFieldValueChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-p-around_xx-small slds-size_3-of-6">
+                    <lightning-input 
+                        data-id={val._id}
+                        name={val._id}
+                        type="color"
+                        variant="label-hidden"
+                        value={val.selectedColor}
+                        label="Choose Color"
+                        placeholder="Choose Color"
+                        onchange={handleImageColorChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-p-around_xx-small slds-size_1-of-6">
+                    <lightning-button-icon 
+                        data-id={val._id}
+                        name={val._id}
+                        variant="neutral"
+                        icon-name="utility:delete"
+                        onclick={handleImageDeleteFieldValue}>
+                    </lightning-button-icon >
+                </div>
+            </div>
+        </template>
+    </div>
+    <div class="slds-p-around_xx-small" if:true={parentChildImageAddButtonVisibility}>
+        <lightning-button 
+            label="Add"
+            variant="brand"
+            onclick={handleImageAddButton}>
+        </lightning-button>
+    </div>
+</template>

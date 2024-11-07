@@ -1,0 +1,36 @@
+<template>
+   <lightning-card class="custom-card">
+      <div class="slds-page-header custom-heading" lwc:if={settingData.titleToggle}>
+         <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+               <div class="slds-media">
+                  <div class="slds-media__figure">
+                     <span class="slds-icon_container slds-icon-standard-opportunity">
+                        <lightning-icon icon-name={settingData.selectedTitleLogo}></lightning-icon>
+                     </span>
+                  </div>
+                  <div class="slds-media__body">
+                     <div class="slds-page-header__name">
+                        <div class="slds-page-header__name-title">
+                           <h1>
+                              <span class="slds-page-header__title slds-truncate">{settingData.selectedTitle}</span>
+                           </h1>
+                           <p class="slds-page-header__name-meta">{settingData.selectedTitleCaption}</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="search-block">
+               <lightning-input type="text" variant="label-hidden" placeholder="Search"  onchange={handleSearchChange}/></lightning-input>
+            </div>
+         </div>
+      </div>
+      <div lwc:if={showActionCard}>
+         <c-dynamic-record-action-card record-data-list={recordDataList}></c-dynamic-record-action-card>
+      </div>
+      <div lwc:else>
+         <c-dynamic-record-tab record-data-list={recordDataList}></c-dynamic-record-tab>
+      </div>
+   </lightning-card>
+</template>

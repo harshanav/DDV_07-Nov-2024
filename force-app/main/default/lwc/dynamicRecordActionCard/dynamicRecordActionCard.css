@@ -1,0 +1,284 @@
+.main-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex{
+    display: flex;
+    justify-content: left;
+}
+.search-bar{
+    border: 1px solid #acacac;
+    border-radius: 20px;
+    font-size: 1.2em;
+    font-weight:500;
+    color: grey;
+}
+.heading-text{
+    color: #070779;
+    font-size: 2em;
+    font-weight: 600;
+}
+.round-border{
+    border-radius: 20px;
+    width: fit-content;
+    padding: 0px 5px;
+    color: white;
+    text-transform: uppercase;
+    font-size: 1em;
+}
+.bg-green{
+    background-color: green;
+}
+.bg-yellow{
+    background-color: #ffca16;
+}
+.info-cards{
+    border: 1px solid #cccbcb;
+   ;
+    border-radius: 12px;
+    padding: 10px;
+}
+.profile-img{
+    border-radius: 50%;
+    height: 40px;
+}
+.logo-img{
+    width: 50px;
+    height: 25px;
+    margin-right: 10px;
+}
+.star {
+    --sds-c-icon-color-foreground-default: white;
+}
+.details-text{
+    font-weight: 700;
+    font-size: 15px;
+}
+.btm-brdr{
+    margin: 10px 3px;
+    border-bottom: 1px solid #cfcccc;
+}
+.summary-div{
+    /* display: none; */
+    margin-top: 20px;
+   /* 
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease-in-out, height 0.3s ease-in-out;
+    */
+}
+/* .info-cards:hover .summary-div{
+    display: block;
+   opacity: 1;
+    height: auto;
+   
+} */
+
+.info-cards-bg{
+    background-color: #edf2f7;
+} 
+.summary-heading{
+    font-size: 1.5em;
+    color: #070779;
+}
+.slds-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    color: #fff;
+    font-size: 11px;
+    text-transform: uppercase;
+   
+}
+.slds-badge.rating{
+     border-radius: 32px;
+    font-size: 14px;
+    height: 34px;
+    max-width: 200px;
+    position: relative;
+    top: -10px;
+    text-overflow: ellipsis;
+    display: inline-block;
+    white-space: nowrap;
+    line-height: 28px;
+    overflow: hidden;
+    text-transform: capitalize;
+}
+.slds-badge.rating lightning-icon{
+   margin-right: 8px;
+    position: relative;
+    top: -1px;
+}
+.slds-badge.rating 
+.accordian-wrapper{
+    height: 550px;
+    overflow-y: auto;
+}
+.accordian-wrapper h4{
+  color: #495D7A;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 30px 0 10px;
+}
+.accordian-wrapper table tr{
+ border-bottom:1px solid  #CBC2C2;
+}
+.accordian-wrapper table tr:last-child{
+ border-bottom:0;
+}
+.accordian-wrapper table td{
+  padding: 12px 0;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+}
+.accordian-wrapper table td:first-child{
+  width:70%;
+}
+.accordian-wrapper  .slds-accordion__section{
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #C9C4C4;
+    background: #FAFAFA;
+    margin-top: 12px;
+}
+.accordian-wrapper  .slds-accordion__section.active{
+    border: 1px solid #000;
+    background: #eee;
+}
+.accordian-wrapper  .slds-accordion__list-item .slds-accordion__summary-action,
+.accordian-wrapper  .slds-accordion__list-item .slds-accordion__summary-action:hover,
+.accordian-wrapper  .slds-accordion__list-item .slds-accordion__summary-action:focus,
+.accordian-wrapper  .slds-accordion__list-item .slds-accordion__summary-action:active{
+    display: block;
+    color: #000;
+    text-decoration: none;
+    position: relative;
+    padding: 40px 20px 20px;
+    outline: none;
+    box-shadow: none;
+}
+
+.accordian-wrapper  .logo-text{
+    color: #4B68A0;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+    margin-left:0;
+}
+.accordian-wrapper .slds-grid{
+    margin-top: 24px;
+}
+.accordian-wrapper  .slds-accordion__content {
+    overflow: hidden;
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    display:none;
+}
+.accordian-wrapper   .slds-accordion__list-item{
+    border: none;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  margin-left:10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+.custom-grid {
+    margin-top: 16px;
+}
+.custom-grid .slds-size_3-of-12{
+     width:calc(100% / 5);
+
+}
+.slds-accordion__summary .slds-accordion__summary-heading{
+    position: relative;
+}
+.accordian-wrapper .accordian-header{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 33.33%;
+    z-index: 9;
+}
+.card-grid{
+    padding-left: 33.33%;
+}
+.card-grid .slds-col{
+    width: 50%;
+}
+.card-grid .slds-col.desc-block{
+    width: calc(100% - 260px);
+    padding-right: 0;
+}
+.card-grid .slds-col.desc-block p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-grid .slds-col.btn-block{
+    width:260px;
+}
+.slds-badge-wrapper{
+    display: block;
+    margin-bottom: 20px;
+}
+.title-wrapper{
+    position: relative;
+    padding-left: 60px;
+    padding-right: 14px;
+}
+.title-wrapper .logo-img{
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+@media only screen and (min-width:300px) and (max-width:991px){
+     .custom-grid .slds-size_3-of-12{
+        width: calc(100% / 2);
+        margin-bottom: 14px;
+    }
+    .slds-wrap.slds-grid .slds-size_4-of-12{
+        width: 100%;
+        text-align: left;
+    }
+    .slds-accordion__summary .slds-accordion__summary-heading {
+        position: relative;
+        flex-wrap: wrap;
+    }
+    .accordian-wrapper .accordian-header {
+        position: relative;
+        width: 100%;
+    }
+    .card-grid {
+        padding-left: 0;
+        text-align: left;
+        flex-wrap: wrap;
+    }
+    .card-grid  p{
+        width: 100%;
+        text-align: left;
+    }
+    .slds-badge.rating {
+        top: 10px;
+    }
+    .accordian-wrapper .slds-accordion__list-item .slds-accordion__summary-action, 
+    .accordian-wrapper .slds-accordion__list-item .slds-accordion__summary-action:hover, 
+    .accordian-wrapper .slds-accordion__list-item .slds-accordion__summary-action:focus,
+    .accordian-wrapper .slds-accordion__list-item .slds-accordion__summary-action:active {
+    padding: 16px;
+    }
+}

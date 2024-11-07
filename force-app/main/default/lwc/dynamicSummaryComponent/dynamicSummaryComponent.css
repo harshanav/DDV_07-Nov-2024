@@ -1,0 +1,35 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+    }
+.quote-button{
+        margin: 40px 0 10px 20px;
+    }
+
+.img-src{
+        margin: 0 0 0 20px;
+    }
+    .star-button{
+        margin: 20px 30px 0 80px;
+    }
+    .para-src{
+        margin: 10px 0 10px 20px;
+    }
+    .summary-src{
+        margin: 0 0 20px 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+   
+
+    .left-column{
+         margin: 0 0 20px 35px;
+    }
+	.right-column{
+         margin: 0 0 20px 20px;
+    }
+	.grid-container1 {
+	border-bottom: .1px solid rgba(165, 160, 160, 0.829);
+	margin: 0 20px 0 20px;
+    }

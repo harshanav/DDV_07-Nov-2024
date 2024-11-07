@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+body{
+    font-family: "Inter", sans-serif;
+}
+
+.slds-icon-utility-favorite svg{
+    fill: #fff;
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+    position: relative;
+    top: -2px;
+}
+p{
+    font-size:14px;
+    font-weight:400;
+    font-family: "Inter", sans-serif;
+}
+.custom-heading  lightning-icon {
+    background-color: #4B68A0;
+}
+.accordian-wrapper .slds-icon-utility-favorite svg {
+
+    width: 16px;
+    height: 16px;
+    top: -1px;
+}
+.slds-badge.rating lightning-icon svg{
+  width:16px;
+  height:16px;
+}
+.search-block{
+    max-width: 250px;
+    width: 100%;
+}
+.search-block .slds-input{
+	border: 1px solid #D6D5D5;
+    border-radius: 22px;
+    height: 40px;
+    position: relative;
+    top: -4px;
+    padding: 0 18px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    width:100%;
+}
+.custom-card .slds-card{
+    padding:20px;
+}

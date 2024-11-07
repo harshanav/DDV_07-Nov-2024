@@ -1,0 +1,72 @@
+<template>
+   <div class="accordian-wrapper">
+      <ul class="slds-accordion">
+         <template if:true={recordDataList}>
+             <template for:each={recordDataList} for:item="rec">
+                <li class="slds-accordion__list-item" key={rec.index}>
+                    <section class="slds-accordion__section">
+                    <div class="slds-accordion__summary">
+                        <h2 class="slds-accordion__summary-heading">
+                            <div class="accordian-header">
+                                <div class="slds-badge-wrapper">
+                                   <div class="slds-badge" style={rec.badgeColor} lwc:if={rec.showBadge} onclick={toggleSection}>{rec.badgeTitle}</div>
+                                   </div> 
+                                 
+                                   <div class="title-wrapper">
+                                            <img lwc:if={rec.showImage} src={rec.imageUrl} alt="" class="logo-img">
+                                            <span class="logo-text"><a href={rec.recordurl} target="_blank" onclick={redirectToRecordUrL}>{rec.title}</a></span>
+                                    </div>
+                              </div>
+                            <button onclick={toggleSection} class="slds-button slds-button_reset slds-accordion__summary-action first-btn" aria-controls="referenceId-45" aria-expanded="true" title="Accordion summary">
+                                <span class="slds-accordion__summary-content">
+                                 
+                                    <div class="slds-grid slds-gutters slds-wrap card-grid">
+                                        <!--div class="slds-col slds-size_4-of-12">
+                                            <img lwc:if={rec.showImage} src={rec.imageUrl} alt="" class="logo-img">
+                                            <span class="logo-text"><a class="link-text" href={rec.recordurl} target="_blank">{rec.title}</a></span>
+                                        </div-->
+                                        <div class="slds-col slds-size_4-of-12 slds-text-align_center desc-block">
+                                            <p>{rec.titleCaption}</p>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 slds-text-align_right btn-block" lwc:if={rec.showBadgeImage}>
+                                            <div class="slds-badge rating" style={rec.badgeImageColor} >
+                                                <lightning-icon icon-name={rec.badgeImageIcon} alternative-text="Utility image" title="Image"></lightning-icon>
+                                                {rec.badgeImageTitle}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template if:true={rec.compactDetails}>
+                                        <div class="slds-grid slds-gutters slds-wrap custom-grid">
+                                            <template for:each={rec.compactDetails} for:item="detail">
+                                                <div key={detail} class="slds-col slds-size_3-of-12">
+                                                    <p class="slds-text-title slds-truncate">{detail.label}</p>
+                                                    <p class="slds-text-body--regular">{detail.value}</p>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </span>
+                            </button>
+                        </h2>
+                    </div>
+                    <div hidden="" class="slds-accordion__content first-content" id="referenceId-45">
+                        <h4>Summary</h4>
+                        <template if:true={rec.details}>
+                            <table class="summary-table">
+                                <template for:each={rec.details} for:item="recDetail">
+                                    <tr key={recDetail}>
+                                        <td>{recDetail.label}</td>
+                                       
+                                        <td>{recDetail.value}</td>
+                                    </tr>
+                                </template>
+                            </table>
+                        </template>
+                    </div>
+                    </section>
+                </li>
+             </template>
+         </template>
+      </ul>
+   </div>
+</template>
