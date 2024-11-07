@@ -15,4 +15,6 @@ public class DynamicDataTableConfigCtrl {
         }
         return new List<String>(sobjects);
     }
+
+    //Test
 }
